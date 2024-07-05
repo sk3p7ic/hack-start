@@ -33,7 +33,7 @@ export const sponsorshipLevels = pgEnum("sponsorshipLevel", [
 /**
  * Sponsors and other hosts of the hackathon.
  */
-export const organizations = createTable("sponsor", {
+export const organizations = createTable("organization", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 255 }),
   desc: varchar("desc", { length: 511 }),
@@ -86,11 +86,30 @@ export const checkIns = createTable("checkin", {
 });
 
 /**
- * Connects sponsors to events via a many-to-many relationship.
+ * Connects organizations to events via a many-to-many relationship.
  */
-export const eventsSponsorsRelations = relations(events, ({ many }) => ({
-  sponsors: many(organizations)
+export const eventsOrgsRelations = relations(events, ({ many }) => ({
+  orgs: many(organizations)
 }));
+
+/**
+ * Connects events to organizations via a many-to-many relationship.
+ */
+export const orgsEventsRelations = relations(organizations, ({ many }) => ({
+  events: many(events)
+}));
+
+/**
+ * Table for connecting organizations to events.
+ */
+export const orgsToEvents = createTable("orgToEvent", {
+  orgId: integer("orgId")
+    .notNull()
+    .references(() => organizations.id),
+  eventId: integer("eventId")
+    .notNull()
+    .references(() => events.id),
+});
 
 export const userRoles = pgEnum("userRole", [
   "none", "registerant", "hacker", "admin", "super_admin"

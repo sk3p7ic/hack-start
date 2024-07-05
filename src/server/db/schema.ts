@@ -40,6 +40,8 @@ export const organizations = createTable("sponsor", {
   href: varchar("href", { length: 255 }),
   image: varchar("image", { length: 255 }),
   level: sponsorshipLevels("sponsorshipLevel")
+    .default("not_specified")
+    .notNull(),
 });
 
 /**
@@ -64,6 +66,8 @@ export const events = createTable("event", {
   startDate: date("startDate").notNull(),
   endDate: date("startDate").notNull(),
   eventType: eventTypes("eventType")
+    .default("general")
+    .notNull(),
 });
 
 /**
@@ -122,8 +126,12 @@ export const users = createTable("user", {
   registrationTime: timestamp("registrationTime", { withTimezone: true })
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
-  role: userRoles("role"),
-  group: userGroups("group"),
+  role: userRoles("role")
+    .default("none")
+    .notNull(),
+  group: userGroups("group")
+    .default("none")
+    .notNull(),
 });
 
 export const usersRelations = relations(users, ({ many }) => ({

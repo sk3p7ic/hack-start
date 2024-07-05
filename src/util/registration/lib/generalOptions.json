@@ -1,0 +1,23 @@
+{
+    "genders": [
+        { "name": "female", "value": "Female" },
+        { "name": "male", "value": "male" },
+        { "name": "nonbinary", "value": "Non-Binary" },
+        { "name": "other", "value": "Other" },
+        { "name": "prefNotSay", "value": "Prefer not to Say" }
+    ],
+    "races": [
+        { "name": "nativeAmerican", "value": "Native American" },
+        { "name": "asian", "value": "Asian / Pacific Islander" },
+        { "name": "black", "value": "Black or African Americon" },
+        { "name": "hispanic", "value": "Hispanic" },
+        { "name": "white", "value": "White / Caucasian" },
+        { "name": "other", "value": "Multiple / Other" },
+        { "name": "prefNotSay", "value": "Prefer not to Say" }
+    ],
+    "ethnicities": [
+        { "name": "hispanic", "value": "Hispanic or Latino" },
+        { "name": "notHispanic", "value": "Not Hispanic or Latino" },
+        { "name": "prefNotSay", "value": "Prefer not to Say" }
+    ]
+}

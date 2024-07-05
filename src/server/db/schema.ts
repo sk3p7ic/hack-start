@@ -22,27 +22,6 @@ import { type AdapterAccount } from "next-auth/adapters";
  */
 export const createTable = pgTableCreator((name) => `hack-start_${name}`);
 
-/* Example code.
-export const posts = createTable(
-  "post",
-  {
-    id: serial("id").primaryKey(),
-    name: varchar("name", { length: 256 }),
-    createdById: varchar("createdById", { length: 255 })
-      .notNull()
-      .references(() => users.id),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updatedAt: timestamp("updatedAt", { withTimezone: true }),
-  },
-  (example) => ({
-    createdByIdIdx: index("createdById_idx").on(example.createdById),
-    nameIndex: index("name_idx").on(example.name),
-  })
-);
-*/
-
 /**
  * Different levels of sponsorship for sponsors.
  * Feel free to change to match your desired level(s).
@@ -52,14 +31,15 @@ export const sponsorshipLevels = pgEnum("sponsorshipLevel", [
 ]);
 
 /**
- * Sponsors of the hackathon.
+ * Sponsors and other hosts of the hackathon.
  */
-export const sponsors = createTable("sponsor", {
+export const organizations = createTable("sponsor", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 255 }),
   desc: varchar("desc", { length: 511 }),
   href: varchar("href", { length: 255 }),
-  image: varchar("image", { length: 255 })
+  image: varchar("image", { length: 255 }),
+  level: sponsorshipLevels("sponsorshipLevel")
 });
 
 /**
@@ -83,6 +63,7 @@ export const events = createTable("event", {
   location: varchar("location", { length: 255 }),
   startDate: date("startDate").notNull(),
   endDate: date("startDate").notNull(),
+  eventType: eventTypes("eventType")
 });
 
 /**
@@ -104,7 +85,7 @@ export const checkIns = createTable("checkin", {
  * Connects sponsors to events via a many-to-many relationship.
  */
 export const eventsSponsorsRelations = relations(events, ({ many }) => ({
-  sponsors: many(sponsors)
+  sponsors: many(organizations)
 }));
 
 export const userRoles = pgEnum("userRole", [
@@ -141,6 +122,8 @@ export const users = createTable("user", {
   registrationTime: timestamp("registrationTime", { withTimezone: true })
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
+  role: userRoles("role"),
+  group: userGroups("group"),
 });
 
 export const usersRelations = relations(users, ({ many }) => ({

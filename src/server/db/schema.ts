@@ -138,6 +138,9 @@ export const users = createTable("user", {
   }).default(sql`CURRENT_TIMESTAMP`),
   image: varchar("image", { length: 255 }),
   registration: json("registration"),
+  registrationTime: timestamp("registrationTime", { withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
 });
 
 export const usersRelations = relations(users, ({ many }) => ({

@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import { api } from "~/trpc/react";
 
+/*
 export function CreatePost() {
   const router = useRouter();
   const [name, setName] = useState("");
@@ -41,3 +42,4 @@ export function CreatePost() {
     </form>
   );
 }
+*/
